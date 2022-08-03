@@ -17,6 +17,7 @@ import (
 var (
 	fRequote = flag.String("requote", "10s", "how often to requote")
 	fAddr    = flag.String("addr", "localhost:3000", "the address to connect to")
+	fNum     = flag.Int("num", 1, "number of quotes")
 )
 
 func main() {
@@ -30,10 +31,11 @@ func main() {
 	}
 
 	var client pb.QuoterClient
+	// mun := int32(2)
 
 	for {
 		if client == nil {
-			var retryStrategy = retry.Strategy{
+			retryStrategy := retry.Strategy{
 				Delay:       100 * time.Millisecond,
 				MaxDelay:    5 * time.Second,
 				MaxDuration: 30 * time.Second,
@@ -56,7 +58,7 @@ func main() {
 			}
 			client = pb.NewQuoterClient(conn)
 		}
-		r, err := client.Quote(context.Background(), &pb.QuoteRequest{Lang: pb.Language_EN, Num: 1})
+		r, err := client.Quote(context.Background(), &pb.QuoteRequest{Lang: pb.Language_EN, Num: int32(*fNum)})
 		if err != nil {
 			client = nil
 			log.Printf("error: failed to get quotes: %v", err)
