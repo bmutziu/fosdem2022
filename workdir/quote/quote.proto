@@ -15,7 +15,7 @@ service Quoter {
 
 message QuoteRequest {
   Language lang = 1;
-  int32 num = 2;
+  int32 num = 2 [(cue.val) = ">0 & <4"];
 }
 
 message QuoteResponse { repeated string quotes = 1; }

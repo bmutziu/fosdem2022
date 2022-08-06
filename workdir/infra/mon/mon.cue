@@ -14,5 +14,5 @@ Deployment: spec: template: metadata: annotations:
 // the monitoring team. :)
 Deployment: spec: template: spec: containers: [...{
 	imagePullPolicy: "Always"
-	args: ["-addr=quoteserver:80", "-requote=10s"]
+	args: ["-addr=quoteserver:80", "-requote=10s", "-num=2"]
 }]

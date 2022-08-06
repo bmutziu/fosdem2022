@@ -43,8 +43,7 @@ Deployment: X={
 // path elements that are more meaningful to the aspect. In this case, the
 // important part is that we are adding an annotation. The fact that these
 // live in the metadata section is less relevant for the understanding.
-Deployment: spec: template: metadata:
-	annotations: "prometheus.io/scrape": "true"
+Deployment: spec: template: metadata: annotations: "prometheus.io/scrape": "true"
 
 // Enforce the use of the acme.com container registry
 Deployment: spec: template: spec: {}

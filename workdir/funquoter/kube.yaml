@@ -8,9 +8,9 @@ spec:
   selector:
     app: funquoter
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 3000
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -27,9 +27,10 @@ spec:
         app: funquoter
     spec:
       containers:
-      - name: application
-        image: k3d-registry.acme.com:5000/fosdem2022/funquoter
-        imagePullPolicy: Always
-        args:
-        - "-addr=quoteserver:80"
-        - "-requote=10s"
+        - name: application
+          image: k3d-registry.acme.com:5000/fosdem2022/funquoter
+          imagePullPolicy: Always
+          args:
+            - "-addr=quoteserver:80"
+            - "-requote=10s"
+            - "-num=2"

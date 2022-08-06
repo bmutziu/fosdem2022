@@ -31,7 +31,6 @@ func main() {
 	}
 
 	var client pb.QuoterClient
-	// mun := int32(2)
 
 	for {
 		if client == nil {
