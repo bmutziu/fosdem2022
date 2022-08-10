@@ -7,7 +7,10 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"os/exec"
 
+	"cuelang.org/go/cue/cuecontext"
+	"cuelang.org/go/cue/load"
 	"google.golang.org/grpc"
 
 	pb "acme.com/x/quote"
@@ -40,6 +43,27 @@ func (s *server) Quote(ctx context.Context, in *pb.QuoteRequest) (*pb.QuoteRespo
 
 	num := in.GetNum()
 	log.Printf("Num: %v", num)
+
+	numPart := fmt.Sprintf("%d", num)
+
+	cmd := exec.Command("./validate.sh", numPart)
+
+	out, err := cmd.Output()
+	if err != nil {
+		println(err.Error())
+	}
+	print(string(out))
+
+	instances := load.Instances([]string{}, &load.Config{Dir: "."})
+	for _, i := range instances {
+		ctx := cuecontext.New()
+		v := ctx.BuildInstance(i)
+		if v.Err() != nil {
+			// log.Fatalf("%s", v.Err())
+			log.Println(v.Err())
+		}
+		fmt.Printf("%s\n", v)
+	}
 
 	pick := []string{}
 	if num > 2 {
